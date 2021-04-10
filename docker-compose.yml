@@ -1,0 +1,21 @@
+
+version: '3'
+services:
+  redis-server:
+    image: redis
+    networks:
+      backend:
+        ipv4_address: 172.20.1.3
+  tic-tac-toe:
+    image: artoju/tic-tac-toe
+    networks:
+      backend:
+        ipv4_address: 172.20.1.2
+    ports: 
+      - "9000:9000"
+networks:
+  backend:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.1.0/24

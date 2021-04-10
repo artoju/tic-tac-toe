@@ -1,0 +1,14 @@
+server:
+  port: 9000
+  stateHandler: "redis"
+databaseHandler:
+  keyId: "id"
+  secretKey: "secretKey"
+  tableName: "tic-tac-toe"
+  region: "region"
+fileHandler:
+  path: "/full/file/path"
+redisHandler:
+  address: "localhost:6379"
+  password: ""
+  database: 0

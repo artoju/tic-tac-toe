@@ -1,0 +1,6 @@
+.git/
+.gitignore
+test
+main
+games/
+config/config.yml
