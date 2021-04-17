@@ -174,10 +174,10 @@ func listGames() []LobbyGame {
 }
 
 // Lists active lobby clients.
-func listPlayers() []string {
-	players := make([]string, 0)
+func listPlayers() []LobbyPlayer {
+	players := make([]LobbyPlayer, 0)
 	for player := range MainLobby.clients {
-		players = append(players, player.ID)
+		players = append(players, LobbyPlayer{ID: player.ID, Name: player.Name})
 	}
 	return players
 }
@@ -203,9 +203,9 @@ func LobbyHandler(w http.ResponseWriter, r *http.Request) {
 		}).Error("LobbyHandler error")
 		return
 	}
-	players := make([]string, 0)
-	for player, _ := range MainLobby.clients {
-		players = append(players, player.ID)
+	players := make([]LobbyPlayer, 0)
+	for player := range MainLobby.clients {
+		players = append(players, LobbyPlayer{ID: player.ID, Name: player.Name})
 	}
 	id := ShortID()
 

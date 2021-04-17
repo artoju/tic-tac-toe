@@ -10,6 +10,9 @@ type Client struct {
 	// Identificates client.
 	ID string
 
+	// Name set by client.
+	Name string
+
 	// Access client's current game. Nil if empty.
 	game *OnlineGame
 
@@ -54,6 +57,9 @@ type OnlineGame struct {
 	// Identificates OnlineGame.
 	ID string
 
+	// Name set by creator.
+	Name string
+
 	// Connected player clients.
 	Players map[*Client]bool
 
@@ -72,10 +78,10 @@ type OnlineGame struct {
 
 // Outgoing messages to lobby clients.
 type LobbyMessage struct {
-	MessageType string      `json:"messageType"`
-	Message     string      `json:"message"`
-	Players     []string    `json:"players"`
-	Games       []LobbyGame `json:"games"`
+	MessageType string        `json:"messageType"`
+	Message     string        `json:"message"`
+	Players     []LobbyPlayer `json:"players"`
+	Games       []LobbyGame   `json:"games"`
 }
 
 // Outgoing response message for joining game.
@@ -89,24 +95,26 @@ type GameJoinMessage struct {
 
 // Outgoing game action broadcast message.
 type GameMessage struct {
-	MessageType string   `json:"messageType"`
-	Message     string   `json:"message"`
-	Players     []string `json:"players"`
-	Board       string   `json:"board"`
-	NextPlayer  string   `json:"nextPlayer"`
-	GameStatus  string   `json:"gameStatus"`
+	MessageType string        `json:"messageType"`
+	Message     string        `json:"message"`
+	Players     []LobbyPlayer `json:"players"`
+	Board       string        `json:"board"`
+	NextPlayer  string        `json:"nextPlayer"`
+	GameStatus  string        `json:"gameStatus"`
 }
 
 // Game's lobby presentation.
 type LobbyGame struct {
 	PlayerCount int           `json:"playerCount"`
 	GameID      string        `json:"gameId"`
+	Name        string        `json:"name"`
 	Players     []LobbyPlayer `json:"players"`
 }
 
 // LobbyGame's player presentation.
 type LobbyPlayer struct {
-	ID string `json:"id"`
+	ID   string `json:"id"`
+	Name string `json:"name"`
 }
 
 // Lobby client request
