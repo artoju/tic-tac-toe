@@ -1,6 +1,9 @@
 package socket
 
 import (
+	"regexp"
+	"time"
+
 	"github.com/artoju/tic-tac-toe/auth"
 	gameAction "github.com/artoju/tic-tac-toe/game/actions"
 	log "github.com/sirupsen/logrus"
@@ -129,4 +132,14 @@ func SetName(lobbyRequest LobbyRequestMessage, c *Client) {
 	c.Name = lobbyRequest.Message
 	updateLobbyMessage := LobbyMessage{Players: listPlayers(), MessageType: "UPDATE_LOBBY", Message: "", Games: listGames()}
 	MainLobby.broadcast <- updateLobbyMessage
+}
+
+// SendLobbyChatMessage broadcasts a chat message to lobby.
+func SendLobbyChatMessage(lobbyRequest LobbyRequestMessage, c *Client) {
+	t := time.Now()
+	ts := t.Format("15:04")
+	re := regexp.MustCompile("[\t\n]")
+	message := re.ReplaceAllString(lobbyRequest.Message, " ")
+	chatMessage := ChatMessage{MessageType: "CHAT_MESSAGE", Message: message, Timestamp: ts, Sender: LobbyPlayer{ID: c.ID, Name: c.Name}}
+	MainLobby.broadcast <- chatMessage
 }

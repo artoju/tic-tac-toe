@@ -1,6 +1,11 @@
 package socket
 
-import gameAction "github.com/artoju/tic-tac-toe/game/actions"
+import (
+	"regexp"
+	"time"
+
+	gameAction "github.com/artoju/tic-tac-toe/game/actions"
+)
 
 // GameMove makes a move for client c.
 func GameMove(gameRequest GameRequestMessage, c *Client) {
@@ -28,4 +33,14 @@ func GameMove(gameRequest GameRequestMessage, c *Client) {
 		GameStatus:  gameState.Status,
 	}
 	c.game.broadcast <- gameMoveMessage
+}
+
+// SendGameChatMessage broadcasts a chat message to game.
+func SendGameChatMessage(gameRequest GameRequestMessage, c *Client) {
+	t := time.Now()
+	ts := t.Format("15:04")
+	re := regexp.MustCompile("[\t\n]")
+	message := re.ReplaceAllString(gameRequest.Message, " ")
+	chatMessage := ChatMessage{MessageType: "CHAT_MESSAGE", Message: message, Timestamp: ts, Sender: LobbyPlayer{ID: c.ID, Name: c.Name}}
+	c.game.broadcast <- chatMessage
 }

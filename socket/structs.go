@@ -134,3 +134,10 @@ type ErrorMessage struct {
 	MessageType string `json:"messageType"`
 	Message     string `json:"message"`
 }
+
+type ChatMessage struct {
+	MessageType string      `json:"messageType"`
+	Message     string      `json:"message"`
+	Sender      LobbyPlayer `json:"sender"`
+	Timestamp   string      `json:"timestamp"`
+}

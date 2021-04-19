@@ -41,8 +41,8 @@ func (c *Client) lobbyClientRead() {
 			CreateGame(c)
 		case "SET_NAME":
 			SetName(lobbyRequest, c)
-		case "SEND_MSG":
-			MainLobby.broadcast <- []byte(lobbyRequest.Message)
+		case "CHAT_MESSAGE":
+			SendLobbyChatMessage(lobbyRequest, c)
 		}
 	}
 }
@@ -78,8 +78,8 @@ func (c *Client) gameClientRead() {
 		switch gameRequest.MessageType {
 		case "GAME_MOVE":
 			GameMove(gameRequest, c)
-		case "GAME_SEND_MESSAGE":
-			MainLobby.broadcast <- []byte(gameRequest.Message)
+		case "CHAT_MESSAGE":
+			SendGameChatMessage(gameRequest, c)
 		}
 
 	}
