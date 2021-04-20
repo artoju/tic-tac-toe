@@ -84,6 +84,11 @@ type LobbyMessage struct {
 	Games       []LobbyGame   `json:"games"`
 }
 
+type UpdateNameMessage struct {
+	MessageType string      `json:"messageType"`
+	Player      LobbyPlayer `json:"player"`
+}
+
 // Outgoing response message for joining game.
 type GameJoinMessage struct {
 	MessageType string `json:"messageType"`

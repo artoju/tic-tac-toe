@@ -129,9 +129,11 @@ func CreateGame(c *Client) {
 
 // SetName sets c client's name and sends update message.
 func SetName(lobbyRequest LobbyRequestMessage, c *Client) {
-	c.Name = lobbyRequest.Message
-	updateLobbyMessage := LobbyMessage{Players: listPlayers(), MessageType: "UPDATE_LOBBY", Message: "", Games: listGames()}
-	MainLobby.broadcast <- updateLobbyMessage
+	re := regexp.MustCompile("[\t\n\f\r ]")
+	name := re.ReplaceAllString(lobbyRequest.Message, "")
+	c.Name = name
+	updateNameMessage := UpdateNameMessage{Player: LobbyPlayer{Name: name, ID: c.ID}, MessageType: "UPDATE_PLAYER_NAME"}
+	MainLobby.broadcast <- updateNameMessage
 }
 
 // SendLobbyChatMessage broadcasts a chat message to lobby.
